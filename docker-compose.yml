@@ -1,0 +1,22 @@
+version: "3"
+services:
+  slowfast:
+    image: slowfast:latest
+    build: .
+    shm_size: "2gb"
+    environment:
+      - "DISPLAY=${DISPLAY}"
+      - "NVIDIA_VISIBLE_DEVICES=all"
+      - "NVIDIA_DRIVER_CAPABILITIES=all"
+    volumes:
+      - ./:/workspace
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+    tty: true
+    privileged: true
+    ports:
+      - "6006:6006"
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
